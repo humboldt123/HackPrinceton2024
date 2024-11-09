@@ -1,4 +1,4 @@
-const YoutubeChaptersGetter = require('youtube-chapters-finder').default
+const YoutubeChaptersGetter = require('youtube-chapters-finder').default //need youtube-chapters-finder installed
 
 async function getChapters(videoId) {
   try {
