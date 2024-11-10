@@ -41,7 +41,7 @@ def get_playlist(playlistId):
     request_playlist = youtube.playlistItems().list(
         playlistId=playlistId,
         part='snippet',
-        maxResults = 100,
+        maxResults = 10,
     )
 
     response_playlist = request_playlist.execute()

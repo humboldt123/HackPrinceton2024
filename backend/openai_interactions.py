@@ -64,6 +64,7 @@ def return_clips(transcript: str):
     return clips
 
 def return_article(title,description,text):
+    print("Starting Article")
     prompt = f"This is an excerpt of a course. This excerpt is on {title} with a description of {description}. Please write a document to teach the lesson, write in an authoritative and precise manner and include equations or examples as needed to explain and reinforce the points. Maintain an authoritative and academic style as if this was a section of a textbook: {text}"
 
     client = OpenAI(
@@ -79,10 +80,11 @@ def return_article(title,description,text):
             {"role": "system", "content": "You are a helpful assistant."},
             {"role": "user", "content": prompt}
         ],
-        max_tokens=2000  # Maximum length of the response
+        max_tokens=1000  # Maximum length of the response
     )
 
-    print(response.choices[0].message.content)
+    res = response.choices[0].message.content
+    return res
     
     # res = response['choices'][0]['message']['content'].strip()
     # print(res)

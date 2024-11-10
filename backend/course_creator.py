@@ -6,11 +6,44 @@ import requests
 from  openai_interactions import return_clips, return_article
 
 
-def create_chapters(video_id):
-    transcript_dict = YouTubeTranscriptApi.get_transcript(video_id) 
-    combined_text = ' '.join([f"{entry['text']} [{entry['start']}]" for entry in transcript_dict])
-    print(return_clips(example))
+def create_chapter_objects(video_id):
+    transcript_dict = get_transcript(video_id)
+    chapters = create_chapters(transcript_dict)
+    # chapters = return_clips(example)
+    res = []
+    for c in chapters[0]:
+        chapter_dict = (c).copy()
+        texts_in_interval = [entry['text'] for entry in transcript_dict if chapter_dict["start_time"] <= entry['start'] <= chapter_dict["end_time"]]
+        chapter_dict["transcripts"] = texts_in_interval
+        chapter_dict["video_id"] = video_id
+        res.append(chapter_dict)
+    return res
     
+
+def get_transcript(video_id):
+    transcript_dict = YouTubeTranscriptApi.get_transcript(video_id) 
+    return transcript_dict
+
+    # test = [
+    #     {
+    #         'text': 'Hey there',
+    #         'start': 7.58,
+    #         'duration': 6.13
+    #     },
+    #     {
+    #         'text': 'how are you',
+    #         'start': 14.08,
+    #         'duration': 7.58
+    #     },
+    #     # ...
+    # ]
+    # return test
+
+# Calls OPENAI
+def create_chapters(transcript_dict):
+    combined_text = ' '.join([f"{entry['text']} [{entry['start']}]" for entry in transcript_dict])
+    return return_clips(combined_text)
+
 
 def get_youtube_chapters(video_id): #if there  are  preexisting chapters like 3B1B
     try:
@@ -38,7 +71,7 @@ def gen_article(transcript_dict, title, description, start, end):
 
 
 
-    
+create_chapter_objects("")
     
     
 
