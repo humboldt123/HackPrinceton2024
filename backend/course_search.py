@@ -1,19 +1,20 @@
 from googleapiclient.discovery import build
 import re
+import os
 
 
-## Youtube Search
-API_KEY = ''
+# Get the value of google api key
+API_KEY = os.environ.get('GOOGLE_API_KEY')
 youtube = build('youtube', 'v3', developerKey=API_KEY)
 
 
-# Returns list of top 3 playlists in order, each video represented by a dict [{playlist_id: string, title: string, description: string, channelTitle: string}]
-def course_search(youtube,topicString,type="playlist"):
+# Returns list of videos in order, each video represented by a dict [{video_id: string, title: string, description: string}]
+def search_courses(youtube,topicString, results = 1,type="playlist"):
     search_string = topicString + " Course"
     request = youtube.search().list(
         q=search_string,  # Search term
         part='snippet',  # Include snippet (title, description, etc.)
-        maxResults=3,  # Maximum number of results
+        maxResults=results,  # Maximum number of results
         type=type,  # Only search for videos (exclude playlists and channels)
     )
 
@@ -49,3 +50,26 @@ def get_playlist(youtube,playlistId):
         res2.append({"video_id": video_id, "title": title, "description": description})
 
     return res2
+
+## Video Chapters, returns list of [{timestamp:string, title: string}]
+def get_chapters(youtube,video_id):
+    request_for_chapters = youtube.videos().list(
+        id=video_id,  # Search term
+        part='snippet',  # Include snippet (title, description, etc.)
+    )
+
+    response_for_chapters = request_for_chapters.execute()
+
+    res = []
+
+    for video in response_for_chapters['items']:
+        description = video['snippet']['description']
+
+        # Find chapters (timestamps in description)
+        chapters = re.findall(r'(\d{2}:\d{2}) - (.+)', description)
+
+        # Print out the chapters
+        for timestamp, title in chapters:
+            res.append((timestamp,title))
+    
+    return res
