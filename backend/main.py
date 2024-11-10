@@ -31,6 +31,7 @@ def get_data2():
     for v in videos:
         video_id = v["video_id"]
         data = create_chapter_objects(video_id)
+        print(data)
         for d in data:
             res.append(d)
     return jsonify(res)

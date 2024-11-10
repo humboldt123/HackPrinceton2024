@@ -1,6 +1,6 @@
 import subprocess
 import json
-#from youtube_transcript_api import YouTubeTranscriptApi
+from youtube_transcript_api import YouTubeTranscriptApi
 from prompts import example
 import requests
 from  openai_interactions import return_clips, return_article
@@ -69,9 +69,6 @@ def gen_article(transcript_dict, title, description, start, end):
     res = return_article(title,description,joined_text)
     return res
 
-
-
-create_chapter_objects("")
     
     
 
