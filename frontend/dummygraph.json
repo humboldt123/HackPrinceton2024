@@ -1,0 +1,45 @@
+[
+    {
+      "description": "Understanding imaginary numbers and the concept of square roots of negative numbers.",
+      "end_time": 30,
+      "start_time": 1,
+      "title": "Introduction to Imaginary Numbers",
+      "transcripts": [
+        "let's start with understanding imaginary",
+        "and complex numbers but before that we",
+        "need to consider the square roots of",
+        "numbers let's say we have the equation x",
+        "squared is equal to four which means X",
+        "is equal to plus or minus two easy but",
+        "what if x squared is equal to negative",
+        "four since a number squared is always",
+        "greater than zero how can x squared ever",
+        "be a negative number this is where",
+        "imaginary numbers come in if we let I be",
+        "the square root of negative one we can",
+        "then write the square root of negative"
+      ],
+      "video_id": "8J-H7gbDCos"
+    },
+    {
+      "description": "Introduction to complex numbers, consisting of real and imaginary parts.",
+      "end_time": 65,
+      "start_time": 30,
+      "title": "Complex Numbers Overview",
+      "transcripts": [
+        "four as plus or minus 2i",
+        "this is an imaginary number any number",
+        "that contains a factor of the square",
+        "root of negative one or I",
+        "Now we move one level up to complex",
+        "numbers all our complex number is is a",
+        "number that contains a real number plus",
+        "an imaginary number",
+        "a standard complex number looks like",
+        "this a plus IB where both A and B are",
+        "real numbers a being the real part of",
+        "the number and IB being the imaginary"
+      ],
+      "video_id": "8J-H7gbDCos"
+    }
+]
