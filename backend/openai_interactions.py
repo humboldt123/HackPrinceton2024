@@ -6,26 +6,8 @@ import json
 import os
 from prompts import transcript_to_clip
 
-class Table(str, Enum):
-    clips = "clips"
 
-class Column(str, Enum):
-    title = "title"
-    description = "description"
-    start_time = "start time"
-    end_time = "end time"
-
-class VideoClip(BaseModel):
-    title: str
-    description: str
-    start_time: int  # in seconds
-    end_time: int  # in seconds
-
-class VideoDecomposition(BaseModel):
-    video_transcript: str
-    clip_duration: int = 180
-
-def return_clips(transcript: str) -> List[VideoClip]:
+def return_clips(transcript: str):
     client = OpenAI(
         api_key=os.getenv('OPENAI_API_KEY')
     )
@@ -89,3 +71,5 @@ if __name__ == "__main__":
         print(f"Title: {clip.title}")
         print(f"Description: {clip.description}")
         print(f"Time: {clip.start_time}s - {clip.end_time}s\n")
+
+        

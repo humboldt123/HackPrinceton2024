@@ -8,12 +8,12 @@ youtube = build('youtube', 'v3', developerKey=API_KEY)
 
 
 # Returns list of videos in order, each video represented by a dict [{video_id: string, title: string, description: string}]
-def search_courses(youtube,topicString,type="playlist"):
+def search_courses(youtube,topicString, results = 1,type="playlist"):
     search_string = topicString + " Course"
     request = youtube.search().list(
         q=search_string,  # Search term
         part='snippet',  # Include snippet (title, description, etc.)
-        maxResults=1,  # Maximum number of results
+        maxResults=results,  # Maximum number of results
         type=type,  # Only search for videos (exclude playlists and channels)
     )
 

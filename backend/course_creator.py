@@ -7,10 +7,9 @@ from  openai_interactions import return_clips
 
 
 def create_chapters(video_id):
-    # transcript_dict = YouTubeTranscriptApi.get_transcript('aircAruvnKk') 
+    # transcript_dict = YouTubeTranscriptApi.get_transcript(video_id) 
     # combined_text = ' '.join([f"{entry['text']} [{entry['start']}]" for entry in transcript_dict])
     print(return_clips(example))
-    
     
 
 def get_youtube_chapters(video_id): #if there  are  preexisting chapters like 3B1B
@@ -30,6 +29,14 @@ def get_youtube_chapters(video_id): #if there  are  preexisting chapters like 3B
     except subprocess.CalledProcessError as e:
         print("Error fetching chapters:", e.stderr)
         return None
+    
+def gen_article(transcript_dict, title, description, start, end):
+    texts_in_interval = [entry['text'] for entry in transcript_dict if start <= entry['start'] <= end]
+    joined_text = " ".join(texts_in_interval)
+    
+    
+
+
 
 # Example usage
 # chapters = get_youtube_chapters("aircAruvnKk")
