@@ -4,12 +4,13 @@ import os
 
 
 # Get the value of google api key
-API_KEY = os.environ.get('GOOGLE_API_KEY')
-youtube = build('youtube', 'v3', developerKey=API_KEY)
 
 
 # Returns list of videos in order, each video represented by a dict [{video_id: string, title: string, description: string}]
-def search_courses(youtube,topicString, results = 1,type="playlist"):
+def search_courses(topicString, results = 3,type="playlist"):
+    API_KEY = os.environ.get('GOOGLE_API_KEY')
+    youtube = build('youtube', 'v3', developerKey=API_KEY)
+
     search_string = topicString + " Course"
     request = youtube.search().list(
         q=search_string,  # Search term
@@ -33,7 +34,10 @@ def search_courses(youtube,topicString, results = 1,type="playlist"):
     return res
 
 # Returns list of videos in order, each video represented by a dict [{video_id: string, title: string, description: string}]
-def get_playlist(youtube,playlistId):
+def get_playlist(playlistId):
+    API_KEY = os.environ.get('GOOGLE_API_KEY')
+    youtube = build('youtube', 'v3', developerKey=API_KEY)
+
     request_playlist = youtube.playlistItems().list(
         playlistId=playlistId,
         part='snippet',
@@ -52,7 +56,7 @@ def get_playlist(youtube,playlistId):
     return res2
 
 ## Video Chapters, returns list of [{timestamp:string, title: string}]
-def get_chapters(youtube,video_id):
+def get_chapters(video_id):
     request_for_chapters = youtube.videos().list(
         id=video_id,  # Search term
         part='snippet',  # Include snippet (title, description, etc.)
@@ -73,3 +77,5 @@ def get_chapters(youtube,video_id):
             res.append((timestamp,title))
     
     return res
+
+

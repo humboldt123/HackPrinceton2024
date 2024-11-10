@@ -63,6 +63,31 @@ def return_clips(transcript: str):
     
     return clips
 
+def return_article(title,description,text):
+    prompt = "Suppose a course is on {title} with a description of {description}. Please write a document to teach the lesson, write in an authoritative and precise manner and include equations or examples as needed to explain and reinforce the points. Maintain an authoritative and academic style as if this was a section of a textbook."
+
+    client = OpenAI(
+        api_key=os.getenv('OPENAI_API_KEY')
+    )
+    
+    if not client.api_key:
+        raise ValueError("No API key found. Set the OPENAI_API_KEY environment variable.")
+    
+    response = client.chat.completions.create(
+        model="gpt-4o-2024-08-06",  # You can also use "gpt-3.5-turbo" for a cheaper alternative
+        messages = [
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": prompt}
+        ],
+        max_tokens=100  # Maximum length of the response
+    )
+
+    print(response)
+    
+    res = response['choices'][0]['message']['content'].strip()
+    print(res)
+
+
 # Example usage
 if __name__ == "__main__":
     sample_transcript = "Your transcript text here"
