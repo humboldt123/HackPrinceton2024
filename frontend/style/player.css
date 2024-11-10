@@ -3,7 +3,7 @@ body, html {
     padding: 0;
     height: 100%;
     overflow: hidden;
-    touch-action: none; /* Prevents default touch behaviors */
+    touch-action: none;
 }
 
 .container {
@@ -21,14 +21,123 @@ body, html {
 .video-wrapper {
     height: 100vh;
     width: 100%;
+    position: relative;
+    background: black;
+}
+
+.video-content {
+    height: 100%;
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    background: black;
 }
 
 video {
     max-height: 100%;
     max-width: 100%;
     object-fit: contain;
+}
+
+.video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 20px;
+    box-sizing: border-box;
+    background: linear-gradient(transparent 60%, rgba(0,0,0,0.4));
+}
+
+.right-controls {
+    position: absolute;
+    right: 20px;
+    bottom: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.control-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    cursor: pointer;
+}
+
+.control-button i {
+    font-size: 28px;
+    margin-bottom: 5px;
+}
+
+.control-button span {
+    font-size: 12px;
+}
+
+.video-info {
+    color: white;
+    margin-bottom: 20px;
+    z-index: 2;
+}
+
+.profile-section {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.profile-pic {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.username {
+    font-weight: bold;
+    margin-right: 10px;
+    margin-top: -20px;
+}
+
+.follow-button {
+    background: none;
+    border: 1px solid white;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+
+.video-description {
+    font-size: 14px;
+    margin-top: -20px;
+    margin-left: 42px
+}
+
+.fa-heart.liked {
+    color: red;
+    animation: likeAnimation 0.3s ease-in-out;
+}
+
+@keyframes likeAnimation {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+/* Add this to your existing CSS */
+.control-button i.fa-share {
+    transform: rotate(-90deg); /* Instagram-style angled share icon */
+}
+
+/* Optional: add hover effects */
+.control-button:hover {
+    opacity: 0.8;
 }
