@@ -22,7 +22,7 @@ videos.forEach(videoSrc => {
     video.src = videoSrc;
     video.controls = false;
     video.loop = true;
-    video.muted = true; // Start muted to allow autoplay
+    video.muted = false; // Start muted to allow autoplay
     
     const overlay = document.createElement('div');
     overlay.className = 'video-overlay';
@@ -40,57 +40,45 @@ videos.forEach(videoSrc => {
     videoContainer.appendChild(wrapper);
 });
 
-// Prevent default touch behaviors
-document.body.addEventListener('touchmove', (e) => {
-    e.preventDefault();
-}, { passive: false });
-
-// Touch event handlers
-let isDragging = false;
-
-videoContainer.addEventListener('touchstart', (e) => {
-    isDragging = true;
-    startY = e.touches[0].clientY;
-    videoContainer.style.transition = 'none';
-}, { passive: true });
-
-videoContainer.addEventListener('touchmove', (e) => {
-    if (!isDragging) return;
-    
-    const deltaY = e.touches[0].clientY - startY;
-    currentY = -currentVideoIndex * window.innerHeight + deltaY;
-    videoContainer.style.transform = `translateY(${currentY}px)`;
-}, { passive: true });
-
-videoContainer.addEventListener('touchend', (e) => {
-    if (!isDragging) return;
-    isDragging = false;
-    
-    const deltaY = e.changedTouches[0].clientY - startY;
-    
-    if (Math.abs(deltaY) > 50) { // Reduced threshold for easier swiping
-        if (deltaY > 0 && currentVideoIndex > 0) {
-            currentVideoIndex--;
-        } else if (deltaY < 0 && currentVideoIndex < videos.length - 1) {
-            currentVideoIndex++;
-        }
+document.addEventListener('keyup', event => {
+    if (event.code === 'Space' || event.code === 'ArrowDown') {
+      currentVideoIndex++;
+      currentY = -currentVideoIndex * window.innerHeight;
+      videoContainer.style.transition = 'transform 0.3s ease-out';
+      videoContainer.style.transform = `translateY(${currentY}px)`;
+  
+      // Play current video and pause others
+      const videoElements = document.querySelectorAll('video');
+      videoElements.forEach((video, index) => {
+          if (index === currentVideoIndex) {
+              video.play().catch(e => console.log('Playback failed:', e));
+          } else {
+              video.pause();
+              video.currentTime = 0;
+          }
+      });
     }
 
-    currentY = -currentVideoIndex * window.innerHeight;
-    videoContainer.style.transition = 'transform 0.3s ease-out';
-    videoContainer.style.transform = `translateY(${currentY}px)`;
+    if (event.code === 'ArrowUp') {
+        currentVideoIndex--;
+        currentY = -currentVideoIndex * window.innerHeight;
+        videoContainer.style.transition = 'transform 0.3s ease-out';
+        videoContainer.style.transform = `translateY(${currentY}px)`;
+    
+        // Play current video and pause others
+        const videoElements = document.querySelectorAll('video');
+        videoElements.forEach((video, index) => {
+            if (index === currentVideoIndex) {
+                video.play().catch(e => console.log('Playback failed:', e));
+            } else {
+                video.pause();
+                video.currentTime = 0;
+            }
+        });
+      }
 
-    // Play current video and pause others
-    const videoElements = document.querySelectorAll('video');
-    videoElements.forEach((video, index) => {
-        if (index === currentVideoIndex) {
-            video.play().catch(e => console.log('Playback failed:', e));
-        } else {
-            video.pause();
-            video.currentTime = 0;
-        }
-    });
-});
+    console.log(event.code)
+})
 
 // Initialize first video
 window.addEventListener('DOMContentLoaded', () => {

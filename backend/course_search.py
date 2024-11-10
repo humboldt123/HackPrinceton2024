@@ -27,12 +27,14 @@ def search_courses(youtube,topicString, results = 1,type="playlist"):
         channelTitle = item['snippet']['channelTitle']
         playlist_id = item['id']['playlistId']
         playlist_url = f'https://www.youtube.com/playlist?list={playlist_id}'
-        print(playlist_id)
-        res.append(playlist_id)
+        res.append({"id": playlist_id, "title": title, "description": description, "channelTitle": channelTitle})
     
+    return res
 
+# Returns list of videos in order, each video represented by a dict [{video_id: string, title: string, description: string}]
+def get_playlist(youtube,playlistId):
     request_playlist = youtube.playlistItems().list(
-        playlistId=res[0],
+        playlistId=playlistId,
         part='snippet',
         maxResults = 100,
     )
@@ -46,4 +48,4 @@ def search_courses(youtube,topicString, results = 1,type="playlist"):
         description = item['snippet']['description']
         res2.append({"video_id": video_id, "title": title, "description": description})
 
-    return res
+    return res2
