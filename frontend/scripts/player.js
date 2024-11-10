@@ -113,7 +113,7 @@ function navigateToVideo(index) {
     const newPosition = -currentVideoIndex * window.innerHeight;
     videoContainer.style.transform = `translateY(${newPosition}px)`;
     
-    // play current vid, pause others
+    // play current vid, pause
     const videoElements = document.querySelectorAll('video');
     videoElements.forEach((video, idx) => {
         if (idx === currentVideoIndex) {
