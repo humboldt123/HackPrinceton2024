@@ -64,7 +64,7 @@ def return_clips(transcript: str):
     return clips
 
 def return_article(title,description,text):
-    prompt = "Suppose a course is on {title} with a description of {description}. Please write a document to teach the lesson, write in an authoritative and precise manner and include equations or examples as needed to explain and reinforce the points. Maintain an authoritative and academic style as if this was a section of a textbook."
+    prompt = f"This is an excerpt of a course. This excerpt is on {title} with a description of {description}. Please write a document to teach the lesson, write in an authoritative and precise manner and include equations or examples as needed to explain and reinforce the points. Maintain an authoritative and academic style as if this was a section of a textbook: {text}"
 
     client = OpenAI(
         api_key=os.getenv('OPENAI_API_KEY')
@@ -79,13 +79,13 @@ def return_article(title,description,text):
             {"role": "system", "content": "You are a helpful assistant."},
             {"role": "user", "content": prompt}
         ],
-        max_tokens=100  # Maximum length of the response
+        max_tokens=2000  # Maximum length of the response
     )
 
-    print(response)
+    print(response.choices[0].message.content)
     
-    res = response['choices'][0]['message']['content'].strip()
-    print(res)
+    # res = response['choices'][0]['message']['content'].strip()
+    # print(res)
 
 
 # Example usage
@@ -97,4 +97,3 @@ if __name__ == "__main__":
         print(f"Description: {clip.description}")
         print(f"Time: {clip.start_time}s - {clip.end_time}s\n")
 
-        
