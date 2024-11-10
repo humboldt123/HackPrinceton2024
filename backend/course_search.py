@@ -7,13 +7,13 @@ API_KEY = ''
 youtube = build('youtube', 'v3', developerKey=API_KEY)
 
 
-# Returns list of videos in order, each video represented by a dict [{video_id: string, title: string, description: string}]
-def search_courses(youtube,topicString,type="playlist"):
+# Returns list of top 3 playlists in order, each video represented by a dict [{playlist_id: string, title: string, description: string, channelTitle: string}]
+def course_search(youtube,topicString,type="playlist"):
     search_string = topicString + " Course"
     request = youtube.search().list(
         q=search_string,  # Search term
         part='snippet',  # Include snippet (title, description, etc.)
-        maxResults=1,  # Maximum number of results
+        maxResults=3,  # Maximum number of results
         type=type,  # Only search for videos (exclude playlists and channels)
     )
 
@@ -27,12 +27,14 @@ def search_courses(youtube,topicString,type="playlist"):
         channelTitle = item['snippet']['channelTitle']
         playlist_id = item['id']['playlistId']
         playlist_url = f'https://www.youtube.com/playlist?list={playlist_id}'
-        print(playlist_id)
-        res.append(playlist_id)
+        res.append({"id": playlist_id, "title": title, "description": description, "channelTitle": channelTitle})
     
+    return res
 
+# Returns list of videos in order, each video represented by a dict [{video_id: string, title: string, description: string}]
+def get_playlist(youtube,playlistId):
     request_playlist = youtube.playlistItems().list(
-        playlistId=res[0],
+        playlistId=playlistId,
         part='snippet',
         maxResults = 100,
     )
@@ -46,4 +48,4 @@ def search_courses(youtube,topicString,type="playlist"):
         description = item['snippet']['description']
         res2.append({"video_id": video_id, "title": title, "description": description})
 
-    return res
+    return res2
